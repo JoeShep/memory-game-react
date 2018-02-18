@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.square {
+  height: 100px;
+  width: 120px;
+  border: 1px solid purple;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: 120px 120px 120px 120px 120px;
+  grid-template-rows: auto
+}
