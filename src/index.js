@@ -33,9 +33,16 @@ import "./index.css";
 class Square extends Component {
   render() {
     return (
-      <button className={`square ${this.props.className}`} onClick={() => this.props.onClick()}>
-        {this.props.squareChar}
-      </button>
+      <div className={`flipcard h ${this.props.className ? "flipped" : ""}`}>
+        <button className="front" onClick={() => this.props.onClick()}>
+          {this.props.squareChar}
+          This is the front side
+        </button>
+        <button className="back" onClick={() => this.props.onClick()}>
+          {this.props.squareChar}
+          This is the back side
+        </button>
+      </div>
     );
   }
 }
@@ -45,7 +52,14 @@ class Board extends Component {
     let rows = [];
     for (let i = 0; i < this.props.imgCount; i++) {
       // "key" is required when dynamically adding multiple instances
-      rows.push(<Square className={this.props.tiles[i]} key={i} squareChar={i + 1} onClick={() => this.props.onClick(i)} />);
+      rows.push(
+        <Square
+          className={this.props.tiles[i]}
+          key={i}
+          squareChar={i + 1}
+          onClick={() => this.props.onClick(i)}
+        />
+      );
     }
     return <div className="board">{rows}</div>;
   }
@@ -55,22 +69,21 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tiles: Array(20).fill("")
+      tiles: Array(20).fill(false)
     };
   }
 
   handleClick(tileIndex) {
-    console.log('clicked a square', tileIndex);
+    console.log("clicked a square", tileIndex);
     let clickCount = this.state.tiles.slice();
-    if ( clickCount.filter( (clicked) => clicked).length < 2) {
-      this.flip(tileIndex)
+    if (
+      clickCount.filter(clicked => clicked).length < 2 ||
+      clickCount[tileIndex] //Is the tile already clicked?
+    ) {
+      // set the clicked tile's value in tiles array to T/F
+      clickCount[tileIndex] = !clickCount[tileIndex];
+      this.setState({ tiles: clickCount });
     }
-  }
-
-  flip(tile) {
-    let clickCount = this.state.tiles.slice();
-    clickCount[tile] = "clicked";
-    this.setState({tiles: clickCount});
   }
 
   render() {
@@ -79,7 +92,12 @@ class Game extends Component {
         <h1>This is a Game of Memory</h1>
         {/* Gotta use curlies if you want to pass a number */}
         {/* <Timer startTime={10} /> */}
-        <Board tiles={this.state.tiles} name="Boardy McBoardface" imgCount={20} onClick={(i) => this.handleClick(i)}/>
+        <Board
+          tiles={this.state.tiles}
+          name="Boardy McBoardface"
+          imgCount={20}
+          onClick={i => this.handleClick(i)}
+        />
       </div>
     );
   }
