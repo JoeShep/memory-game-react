@@ -15,3 +15,7 @@ body {
   grid-template-columns: 120px 120px 120px 120px 120px;
   grid-template-rows: auto
 }
+
+.clicked {
+  background: violet;
+}
