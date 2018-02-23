@@ -11,6 +11,7 @@ class Board extends Component {
         <Square
           className={this.props.tiles[i]}
           key={i}
+          image={this.props.images[i]}
           squareChar={i + 1}
           onClick={() => this.props.onClick(i)}
         />

@@ -32,6 +32,7 @@ class Game extends Component {
           tiles={this.state.tiles}
           name="Boardy McBoardface"
           imgCount={20}
+          images={this.props.images}
           onClick={i => this.handleClick(i)}
         />
       </div>

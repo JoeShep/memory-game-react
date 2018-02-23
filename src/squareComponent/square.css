@@ -3,6 +3,7 @@
   /* width: 220px; */
   height: 160px;
   perspective: 500px;
+  border: 1px solid white;
 }
 
 .flipcard.h.flipped .front {

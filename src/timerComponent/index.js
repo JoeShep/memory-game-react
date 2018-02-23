@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+// firebase stuff, here for now
+
+
+
 // Just an experiment. Not necessarily for the game. But might be a cool option
 class Timer extends Component {
   constructor(props) {
