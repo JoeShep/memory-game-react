@@ -13,16 +13,19 @@ const storageRef = storage.ref();
 const imagesRef = storageRef.child("images");
 
 let images = media.map(item => {
-  console.log('itemURL', item.imgUrl );
-
+  // console.log('itemURL', item.imgUrl );
   const imgRef = imagesRef.child(item.imgUrl);
   return imgRef.getDownloadURL();
 });
 
 Promise.all(images)
   .then(imgUrls => {
-    console.log("images?", imgUrls);
-    ReactDOM.render(<Game images={imgUrls} />, document.getElementById("root"));
+    // console.log("images?", imgUrls);
+    media.forEach( (item, i) => {
+      item.imgUrl = imgUrls[i]
+    })
+    // console.log("media", media)
+    ReactDOM.render(<Game media={media} />, document.getElementById("root"));
   })
   .catch(function(error) {
     /*error handling*/

@@ -5,13 +5,15 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tiles: Array(20).fill(false)
+      tiles: Array(20).fill(false),
+      clickedIds: []
     };
   }
 
-  handleClick(tileIndex) {
-    console.log("clicked a square", tileIndex);
+  handleClick(tileIndex, tileId) {
+    console.log("clicked a square", tileId);
     let clickCount = this.state.tiles.slice();
+    let clickedIds = this.state.clickedIds.slice();
     if (
       clickCount.filter(clicked => clicked).length < 2 ||
       clickCount[tileIndex] //Is the tile already clicked?
@@ -19,7 +21,20 @@ class Game extends Component {
       // set the clicked tile's value in tiles array to T/F
       clickCount[tileIndex] = !clickCount[tileIndex];
       this.setState({ tiles: clickCount });
+      // adds the id of the clicked tile to clickedIds state prop
+      clickedIds.push(tileId);
+      console.log("clickedIds", clickedIds);
+      // setState is async!
+      this.setState({ clickedIds }, () => {
+        console.log("id state", this.state.clickedIds);
+        this.checkMatch();
+      });
     }
+  }
+
+  checkMatch() {
+    let matched = this.state.clickedIds[0] === this.state.clickedIds[1] ? "Matched!" : "No match"
+    console.log("matched?", matched);
   }
 
   render() {
@@ -32,8 +47,8 @@ class Game extends Component {
           tiles={this.state.tiles}
           name="Boardy McBoardface"
           imgCount={20}
-          images={this.props.images}
-          onClick={i => this.handleClick(i)}
+          media={this.props.media}
+          onClick={(i, tileId) => this.handleClick(i, tileId)}
         />
       </div>
     );
