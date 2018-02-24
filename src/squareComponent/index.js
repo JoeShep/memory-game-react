@@ -9,7 +9,7 @@ class Square extends Component {
           h
           ${this.props.flipped ? "flipped" : ""}`
         }>
-        <div className="front" onClick={() => this.props.onClick()}></div>
+        <div className={`front ${this.props.randomized ? "randomized" : ""}`} onClick={() => this.props.onClick()}></div>
         <div className={`back ${this.props.matched ? "matched" : ""}`} onClick={() => this.props.onClick()}>
           <img src={this.props.image} alt=""/>
         </div>

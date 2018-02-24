@@ -87,8 +87,9 @@ Add SFX for
     audio clip
   no match
   randomizing
+    Make 3 at a time have class of "randomized". Set a 'randomized' state on the board(?) after the component mounts
   winning
-Add intro/start game affordance
+√ Add intro/start game affordance
 Add moves counter
 Add modes
   timer

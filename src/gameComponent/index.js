@@ -21,7 +21,9 @@ class Game extends Component {
     let clickedTiles = this.state.clickedTiles.slice();
     let matchCount = this.state.matchCount;
     if (
-      clickCount.filter(clicked => clicked.flipped).length - (this.state.matchCount*2) < 2 &&
+      clickCount.filter(clicked => clicked.flipped).length -
+        this.state.matchCount * 2 <
+        2 &&
       !clickCount[tileIndex].flipped //Is the tile already clicked?
     ) {
       // set the clicked tile's value in tiles array to T/F
@@ -66,8 +68,8 @@ class Game extends Component {
 
   initGame() {
     this.setState({ gameState: 'ready' });
-    setTimeout(() => this.setState({ gameState: 'shuffling' }), 1500);
-    setTimeout(() => this.setState({ gameState: 'find' }), 4000);
+    setTimeout(() => this.setState({ gameState: 'shuffling' }), 800);
+    setTimeout(() => this.setState({ gameState: 'find' }), 4500);
   }
 
   render() {
@@ -80,6 +82,7 @@ class Game extends Component {
           imgCount={20}
           media={this.props.media}
           onClick={(i, tileId) => this.handleClick(i, tileId)}
+          gameState={this.state.gameState}
         />
       </div>
     );
