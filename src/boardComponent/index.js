@@ -7,11 +7,12 @@ class Board extends Component {
     let rows = [];
     for (let i = 0; i < this.props.imgCount; i++) {
       let tileId = this.props.media[i].id;
-      // "key" is required when dynamically adding multiple instances
+      // "key" is required when dynamically adding multiple instances so React can keep track
       rows.push(
         <Square
-          className={this.props.tiles[i]}
+          flipped={this.props.tiles[i].flipped}
           id={tileId+i}
+          matched={this.props.tiles[i].matched}
           key={i}
           image={this.props.media[i].imgUrl}
           squareChar={i + 1}

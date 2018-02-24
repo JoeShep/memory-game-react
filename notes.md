@@ -50,3 +50,22 @@ https://www.codicode.com/art/3d_flipping_cards_pure_css3_card_flip_plugin.aspx
 document.querySelector('#cardId').classList.toggle('flip');
 // or using jQuery
 // $("#cardId").toggleClass("flip");
+
+when clicking on a tile
+IF it has not been flipped
+AND there are 0 or 1 tiles flipped already
+  *flip it*
+    IF it is the only flipped tile
+      *make it impossible for user to flip it back*
+      AND
+      *do not add it to the array of flipped tile ids*
+    IF it is the 2nd flipped tile
+      *compare the two flipped tiles*
+        IF they match
+          *mark them as matched
+        AND
+          *disallow flipping them back to hidden*
+
+2/23
+Flipping two matches works and resets state.clickedTiles back to empty array.
+But clicking on a new (3rd) tile flips it OK but I can't click a 2nd (4th) tile to flip it

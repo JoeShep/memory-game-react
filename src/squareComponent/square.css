@@ -6,15 +6,15 @@
   border: 1px solid white;
 }
 
-.flipcard.h.flipped .front {
+.flipcard.flipped .front {
   transform: rotateY(180deg);
 }
 
-.flipcard.h.flipped .back {
+.flipcard.flipped .back {
   transform: rotateY(0deg);
 }
 
-.flipcard.h .back {
+.flipcard .back {
   transform: rotateY(-180deg);
 }
 
@@ -37,4 +37,8 @@
   transform: translateY(-50%);
   left: 50%;
   margin-left: -91px;
+}
+
+.flipcard .matched {
+  background-color: green;
 }
