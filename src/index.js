@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./config/fb-config.js";
 import media from "./media";
 import Game from "./gameComponent";
+import shuffle from "lodash.shuffle"
 import "./index.css";
 
 // firebase stuff is here for now
@@ -17,6 +18,7 @@ let images = media.map(item => {
   const imgRef = imagesRef.child(item.imgUrl);
   return imgRef.getDownloadURL();
 });
+// end firebase stuff
 
 Promise.all(images)
   .then(imgUrls => {
@@ -25,7 +27,7 @@ Promise.all(images)
       item.imgUrl = imgUrls[i]
     })
     // console.log("media", media)
-    ReactDOM.render(<Game media={media} />, document.getElementById("root"));
+    ReactDOM.render(<Game media={shuffle(media)} />, document.getElementById("root"));
   })
   .catch(function(error) {
     /*error handling*/

@@ -9,10 +9,10 @@ class Game extends Component {
       tiles: Array(20).fill({ flipped: false, matched: false }),
       clickedTiles: [],
       // matched: false,
-      matchCount: 0
+      matchCount: 0,
+      gameState: 'pregame'
     };
   }
-
   // clicking a clicked tile is counting as a second clicked id and then it's making a match when it shouldn't
   handleClick(tileIndex, tileId) {
     console.log("clicked a square", tileId, "index", tileIndex);
@@ -33,24 +33,24 @@ class Game extends Component {
           clickedTiles.push({ id: tileId, position: tileIndex });
         this.setState({ clickedTiles }, () => {
           // console.log("id state", this.state.clickedTiles, "tiles", this.state.tiles);
-          if (this.state.clickedTiles.length === 2 && this.checkMatch()) {
-            clickCount[tileIndex].matched = true;
-            clickCount[clickedTiles[0].position].matched = true;
-            this.setState(
-              {
-                tiles: clickCount,
-                matchCount: matchCount + 1,
-                clickedTiles: []
-              },
-              () => {
-                console.log(
-                  "matchcount",
-                  this.state.matchCount,
-                  "clicked length",
-                  this.state.clickedTiles
-                );
-              }
-            );
+          if (this.state.clickedTiles.length === 2) {
+            if (this.checkMatch()) {
+              clickCount[tileIndex].matched = true;
+              clickCount[clickedTiles[0].position].matched = true;
+              setTimeout(() => {
+                this.setState({
+                  tiles: clickCount,
+                  matchCount: matchCount + 1,
+                  clickedTiles: []
+                });
+              }, 200);
+            } else {
+              setTimeout(() => {
+                clickCount[tileIndex].flipped = false;
+                clickCount[clickedTiles[0].position].flipped = false;
+                this.setState({ tiles: clickCount, clickedTiles: [] });
+              }, 1300);
+            }
           }
         });
       });
@@ -59,15 +59,22 @@ class Game extends Component {
 
   checkMatch() {
     console.log("ids clicked", this.state.clickedTiles);
-    return this.state.clickedTiles[0].id === this.state.clickedTiles[1].id ? true : false;
+    return this.state.clickedTiles[0].id === this.state.clickedTiles[1].id
+      ? true
+      : false;
+  }
+
+  initGame() {
+    this.setState({ gameState: 'ready' });
+    setTimeout(() => this.setState({ gameState: 'shuffling' }), 1500);
+    setTimeout(() => this.setState({ gameState: 'find' }), 4000);
   }
 
   render() {
     return (
       <div>
-        <h1>This is a Game of Memory</h1>
-        {/* Gotta use curlies if you want to pass a number */}
-        {/* <Timer startTime={10} /> */}
+        <h1>{this.props.hints[this.state.gameState]}</h1>
+        <button onClick={() => this.initGame()}>START</button>
         <Board
           tiles={this.state.tiles}
           imgCount={20}
@@ -76,6 +83,15 @@ class Game extends Component {
         />
       </div>
     );
+  }
+}
+
+Game.defaultProps = {
+  hints: {
+    pregame: "This is a Game of Memory",
+    ready: "Get Ready!",
+    shuffling: "Shuffling!",
+    find: "Find the famous pairs!"
   }
 }
 

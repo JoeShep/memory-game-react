@@ -67,5 +67,33 @@ AND there are 0 or 1 tiles flipped already
           *disallow flipping them back to hidden*
 
 2/23
-Flipping two matches works and resets state.clickedTiles back to empty array.
+Bug: Flipping two matches works and resets state.clickedTiles back to empty array.
 But clicking on a new (3rd) tile flips it OK but I can't click a 2nd (4th) tile to flip it
+Status: fixed
+
+Bug: Clicking on unmatched tile sets it and 1st tile to unmatched too quickly. Need to show first, then flip after X seconds
+Status: fixed
+
+
+TODO:
+Look into refactoring so many props hand-offs(downs?) by using *this.props.children*
+√ Add randomization of images
+Delay green background on match until second card has flipped completely
+Add tile front CSS
+Add red background when no match
+Add SFX for
+  match
+    ding
+    audio clip
+  no match
+  randomizing
+  winning
+Add intro/start game affordance
+Add moves counter
+Add modes
+  timer
+  X moves
+Add user
+  stats
+
+
