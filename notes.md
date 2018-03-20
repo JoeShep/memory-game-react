@@ -74,11 +74,18 @@ Status: fixed
 Bug: Clicking on unmatched tile sets it and 1st tile to unmatched too quickly. Need to show first, then flip after X seconds
 Status: fixed
 
+2/24
+Bug: componentWillReceiveProps works great, but if user clicks board before clicking start btn, it is also triggered.
+Status: fixed!
+
+Bug: endGame state switching to endGame component causes error re: trying to update a mounted compnenet. Assume this is about componentWillReceiveProps in BoardComponent, which has just been unmounted
+Status: annoying
+
 
 TODO:
 Look into refactoring so many props hand-offs(downs?) by using *this.props.children*
 √ Add randomization of images
-Delay green background on match until second card has flipped completely
+√ Delay green background on match until second card has flipped completely
 Add tile front CSS
 Add red background when no match
 Add SFX for

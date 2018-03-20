@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import Board from "../boardComponent";
+import EndGame from "../endGameComponent";
 
 class Game extends Component {
   constructor(props) {
     super(props);
     // may need to combine tiles' true/false with matched in single object
     this.state = {
+      gameId: 1, //this allows us to create a new game by using it as an ID on a board and then incrementing it by 1 to force React to create a new Board instance
       tiles: Array(20).fill({ flipped: false, matched: false }),
       clickedTiles: [],
       // matched: false,
       matchCount: 0,
-      gameState: 'pregame'
+      gameState: "pregame"
     };
   }
   // clicking a clicked tile is counting as a second clicked id and then it's making a match when it shouldn't
@@ -42,8 +44,8 @@ class Game extends Component {
               setTimeout(() => {
                 this.setState({
                   tiles: clickCount,
-                  matchCount: matchCount + 1,
-                  clickedTiles: []
+                  clickedTiles: [],
+                  matchCount: matchCount + 1
                 });
               }, 200);
             } else {
@@ -67,25 +69,37 @@ class Game extends Component {
   }
 
   initGame() {
-    this.setState({ gameState: 'ready' });
-    setTimeout(() => this.setState({ gameState: 'shuffling' }), 800);
-    setTimeout(() => this.setState({ gameState: 'find' }), 4500);
+    this.setState({ gameState: "ready" });
+    setTimeout(() => this.setState({ gameState: "shuffling" }), 800);
+    setTimeout(() => this.setState({ gameState: "find" }), 4500);
+  }
+
+  // Need to move this up to the top level and make it a component, too
+  resetGame() {
+    this.setState({ gameId: this.state.gameId + 1, matchCount: 0 }, () => {
+      console.log("resetting game", this.state.gameId);
+    });
   }
 
   render() {
-    return (
-      <div>
-        <h1>{this.props.hints[this.state.gameState]}</h1>
-        <button onClick={() => this.initGame()}>START</button>
-        <Board
-          tiles={this.state.tiles}
-          imgCount={20}
-          media={this.props.media}
-          onClick={(i, tileId) => this.handleClick(i, tileId)}
-          gameState={this.state.gameState}
-        />
-      </div>
-    );
+    if (this.state.matchCount < 10) {
+      return (
+        <div>
+          <h1>{this.props.hints[this.state.gameState]}</h1>
+          <button onClick={() => this.initGame()}>START</button>
+          <Board
+            key={this.state.gameId}
+            tiles={this.state.tiles}
+            imgCount={20}
+            media={this.props.media}
+            onClick={(i, tileId) => this.handleClick(i, tileId)}
+            gameState={this.state.gameState}
+          />
+        </div>
+      );
+    } else {
+      return <EndGame gameState={this.state.gameState} onClick={()=>this.resetGame()}/>;
+    }
   }
 }
 
@@ -94,8 +108,9 @@ Game.defaultProps = {
     pregame: "This is a Game of Memory",
     ready: "Get Ready!",
     shuffling: "Shuffling!",
-    find: "Find the famous pairs!"
+    find: "Find the famous pairs!",
+    over: "You did it!"
   }
-}
+};
 
 export default Game;

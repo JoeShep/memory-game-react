@@ -6,10 +6,12 @@ class Square extends Component {
     return (
       <div id={this.props.id} className={
           `flipcard
-          h
           ${this.props.flipped ? "flipped" : ""}`
         }>
-        <div className={`front ${this.props.randomized ? "randomized" : ""}`} onClick={() => this.props.onClick()}></div>
+        <div
+          className={`front ${this.props.randomized ? "randomized" : ""}`}
+          onClick={this.props.gameState === 'find' ? () => this.props.onClick() : null}>
+        </div>
         <div className={`back ${this.props.matched ? "matched" : ""}`} onClick={() => this.props.onClick()}>
           <img src={this.props.image} alt=""/>
         </div>
