@@ -20,7 +20,7 @@ class Container extends Component {
     return new Promise( function(resolve, reject) {
       console.log('setGameState', statesObj );
       this.setState(statesObj);
-      resolve();
+      resolve(this.state);
     }.bind(this));
   }
 
@@ -29,11 +29,13 @@ class Container extends Component {
       <div className="gameContainer">
         <div
           className={`gameContainer__end ${
-            this.state.gameStage === "over" ? "" : "isHidden"
+            this.state.gameStage === "over" ? "isVisible" : "isHidden"
           }`}
         >
-          <h1>You win!</h1>
-          <button onClick={() => this.props.onClick()}>Play Again</button>
+          <div className="gameContainer__end--content">
+            <h1>You win!</h1>
+            <button onClick={() => this.props.onClick()}>Play Again</button>
+          </div>
         </div>
         <Game
           media={this.props.media}

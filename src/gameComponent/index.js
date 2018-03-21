@@ -34,12 +34,12 @@ class Game extends Component {
       clickCount[tileIndex].flipped = !clickCount[tileIndex].flipped;
       // setState is async!
       this.props.setGameState({ tiles: clickCount })
-      .then( function() {
+      .then( () => {
         // adds only the id of a newly clicked tile to clickedIds state prop
         if (clickCount[tileIndex].flipped)
           clickedTiles.push({ id: tileId, position: tileIndex });
         return this.props.setGameState({ clickedTiles })
-      }.bind(this))
+      })
       .then( () => {
         // console.log("id state", this.state.clickedTiles, "tiles", this.state.tiles);
         if (this.props.gameState.clickedTiles.length === 2) {
@@ -51,7 +51,11 @@ class Game extends Component {
               this.props.setGameState({
                 tiles: clickCount,
                 clickedTiles: [],
-                matchCount: matchCount + 1
+                matchCount: matchCount + 1,
+                gameStage: matchCount === 9 ? "over" : this.props.gameState.gameStage
+              })
+              .then( (gameState) => {
+                console.log("state after match", gameState)
               });
             }, 200);
           } else {
@@ -93,22 +97,20 @@ class Game extends Component {
   }
 
   render() {
-    if (this.props.gameState.matchCount < 10) {
-      console.log(this.props.gameState)
-      return (
-        <div>
-          <h1>{this.props.hints[this.props.gameState.gameStage]}</h1>
-          <button onClick={() => this.initGame()}>START</button>
-          <Board
-            key={this.props.gameState.gameId}
-            tiles={this.props.gameState.tiles}
-            imgCount={20}
-            media={this.props.media}
-            onClick={(i, tileId) => this.handleClick(i, tileId)}
-            gameState={this.props.gameState.gameStage}
-          />
-        </div>
-      );
+    return (
+      <div>
+        <h1>{this.props.hints[this.props.gameState.gameStage]}</h1>
+        <button onClick={() => this.initGame()}>START</button>
+        <Board
+          key={this.props.gameState.gameId}
+          tiles={this.props.gameState.tiles}
+          imgCount={20}
+          media={this.props.media}
+          onClick={(i, tileId) => this.handleClick(i, tileId)}
+          gameState={this.props.gameState.gameStage}
+        />
+      </div>
+    );
     // } else {
     //   return (
     //     <EndGame
@@ -116,9 +118,9 @@ class Game extends Component {
     //       onClick={() => this.resetGame()}
     //     />
     //   );
-    }
   }
 }
+
 
 Game.defaultProps = {
   hints: {

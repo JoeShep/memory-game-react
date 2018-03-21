@@ -1,8 +1,38 @@
-.endGameContainer {
-  background: rgba(0,0,0,.3);
+.gameContainer__end {
+  position: absolute;
+  visibility:hidden;
   height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  text-align: center;
+}
+
+.gameContainer__end--content {
+  position: relative;
+  top: 32%;
+
+}
+
+.gameContainer__end--content h1 {
+  color: white;
+  font-size: 4em
+}
+
+.gameContainer__end--content button {
+  height: 30px;
+  width: 100px;
+  background: red;
+  color: white;
 }
 
 .isHidden {
-  display: none;
+  opacity:0;
+  transition:visibility 0s linear 0.5s,
+  opacity 0.5s linear;
+}
+
+.isVisible {
+  visibility: visible;
+  opacity:1;
 }

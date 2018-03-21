@@ -26,8 +26,8 @@ Promise.all(images)
     media.forEach( (item, i) => {
       item.imgUrl = imgUrls[i]
     })
-    // console.log("media", media)
-    ReactDOM.render(<Container media={shuffle(media)} />, document.getElementById("root"));
+    // console.log("media", media) don't forget shuffle(media) for final version
+    ReactDOM.render(<Container media={media} />, document.getElementById("root"));
   })
   .catch(function(error) {
     /*error handling*/
