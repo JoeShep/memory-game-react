@@ -1,0 +1,8 @@
+.endGameContainer {
+  background: rgba(0,0,0,.3);
+  height: 100vh;
+}
+
+.isHidden {
+  display: none;
+}

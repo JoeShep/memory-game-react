@@ -80,6 +80,7 @@ Status: fixed!
 
 Bug: endGame state switching to endGame component causes error re: trying to update a mounted compnenet. Assume this is about componentWillReceiveProps in BoardComponent, which has just been unmounted
 Status: annoying
+Potential fix: Make new component between index.js and gameComponent that has a hidden end-game section. Then show it when the game state changes to done? The container would render Game and index would then render the container.
 
 
 TODO:
