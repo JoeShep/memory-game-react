@@ -79,8 +79,7 @@ Bug: componentWillReceiveProps works great, but if user clicks board before clic
 Status: fixed!
 
 Bug: endGame state switching to endGame component causes error re: trying to update a mounted compnenet. Assume this is about componentWillReceiveProps in BoardComponent, which has just been unmounted
-Status: annoying
-Potential fix: Make new component between index.js and gameComponent that has a hidden end-game section. Then show it when the game state changes to done? The container would render Game and index would then render the container.
+Status: 3/20, First steps done: Moved mgt of game state to a new Container comp. So far, clicking start properly kicks off the shuffling animation and changes the text. Tiles are clickable and 2 will flip. BUT, they don't flip back.
 
 
 TODO:

@@ -17,9 +17,11 @@ class Container extends Component {
   }
 
   setGameState(statesObj) {
-    console.log('setGameState', statesObj );
-
-    this.setState(statesObj);
+    return new Promise( function(resolve, reject) {
+      console.log('setGameState', statesObj );
+      this.setState(statesObj);
+      resolve();
+    }.bind(this));
   }
 
   render() {
