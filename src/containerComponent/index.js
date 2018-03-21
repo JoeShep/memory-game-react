@@ -3,25 +3,36 @@ import Game from "../gameComponent";
 import "./container.css";
 
 class Container extends Component {
+  static initialState = {
+    gameId: 1, //this allows us to create a new game by using it as an ID on a board and then incrementing it by 1 to force React to create a new Board instance
+    tiles: Array(20).fill({ flipped: false, matched: false }),
+    clickedTiles: [],
+    // matched: false,
+    matchCount: 0,
+    gameStage: "pregame"
+  };
+
   constructor(props) {
     super(props);
     // may need to combine tiles' true/false with matched in single object
-    this.state = {
-      gameId: 1, //this allows us to create a new game by using it as an ID on a board and then incrementing it by 1 to force React to create a new Board instance
-      tiles: Array(20).fill({ flipped: false, matched: false }),
-      clickedTiles: [],
-      // matched: false,
-      matchCount: 0,
-      gameStage: "pregame"
-    };
+    this.state = Container.initialState;
   }
 
   setGameState(statesObj) {
-    return new Promise( function(resolve, reject) {
-      console.log('setGameState', statesObj );
-      this.setState(statesObj);
-      resolve(this.state);
-    }.bind(this));
+    return new Promise(
+      function(resolve, reject) {
+        console.log("setGameState", statesObj);
+        this.setState(statesObj);
+        resolve(this.state);
+      }.bind(this)
+    );
+  }
+
+  resetGame() {
+    this.setState(Container.initialState, () => {
+      this.setState({ gameId: this.state.gameId + 1 });
+      console.log("resetting game", this.state.gameId);
+    });
   }
 
   render() {
@@ -34,14 +45,14 @@ class Container extends Component {
         >
           <div className="gameContainer__end--content">
             <h1>You win!</h1>
-            <button onClick={() => this.props.onClick()}>Play Again</button>
+            <button onClick={() => this.resetGame()}>Play Again</button>
           </div>
         </div>
         <Game
           media={this.props.media}
           gameState={this.state}
           // need to use fat arrow here instead of ref to method to preserve 'this' context
-          setGameState={(stateObj) => this.setGameState(stateObj)}
+          setGameState={stateObj => this.setGameState(stateObj)}
         />
       </div>
     );

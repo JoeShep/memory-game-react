@@ -87,14 +87,7 @@ class Game extends Component {
   }
 
   // Need to move this up to the top level and make it a component, too
-  resetGame() {
-    this.props.setGameState(
-      { gameId: this.props.gameState.gameId + 1, matchCount: 0 },
-      () => {
-        console.log("resetting game", this.props.gameState.gameId);
-      }
-    );
-  }
+
 
   render() {
     return (
