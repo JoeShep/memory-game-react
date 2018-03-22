@@ -33,40 +33,46 @@ class Game extends Component {
       // set the clicked tile's value in tiles array to T/F
       clickCount[tileIndex].flipped = !clickCount[tileIndex].flipped;
       // setState is async!
-      this.props.setGameState({ tiles: clickCount })
-      .then( () => {
-        // adds only the id of a newly clicked tile to clickedIds state prop
-        if (clickCount[tileIndex].flipped)
-          clickedTiles.push({ id: tileId, position: tileIndex });
-        return this.props.setGameState({ clickedTiles })
-      })
-      .then( () => {
-        // console.log("id state", this.state.clickedTiles, "tiles", this.state.tiles);
-        if (this.props.gameState.clickedTiles.length === 2) {
-          console.log("about to checkMatch");
-          if (this.checkMatch()) {
-            clickCount[tileIndex].matched = true;
-            clickCount[clickedTiles[0].position].matched = true;
-            setTimeout(() => {
-              this.props.setGameState({
-                tiles: clickCount,
-                clickedTiles: [],
-                matchCount: matchCount + 1,
-                gameStage: matchCount === 9 ? "over" : this.props.gameState.gameStage
-              })
-              .then( (gameState) => {
-                console.log("state after match", gameState)
-              });
-            }, 200);
-          } else {
-            setTimeout(() => {
-              clickCount[tileIndex].flipped = false;
-              clickCount[clickedTiles[0].position].flipped = false;
-              this.props.setGameState({ tiles: clickCount, clickedTiles: [] });
-            }, 1300);
+      this.props
+        .setGameState({ tiles: clickCount })
+        .then(() => {
+          // adds only the id of a newly clicked tile to clickedIds state prop
+          if (clickCount[tileIndex].flipped)
+            clickedTiles.push({ id: tileId, position: tileIndex });
+          return this.props.setGameState({ clickedTiles });
+        })
+        .then(() => {
+          // console.log("id state", this.state.clickedTiles, "tiles", this.state.tiles);
+          if (this.props.gameState.clickedTiles.length === 2) {
+            console.log("about to checkMatch");
+            if (this.checkMatch()) {
+              clickCount[tileIndex].matched = true;
+              clickCount[clickedTiles[0].position].matched = true;
+              setTimeout(() => {
+                this.props
+                  .setGameState({
+                    tiles: clickCount,
+                    clickedTiles: [],
+                    matchCount: matchCount + 1,
+                    gameStage:
+                      matchCount === 9 ? "over" : this.props.gameState.gameStage
+                  })
+                  .then(gameState => {
+                    console.log("state after match", gameState);
+                  });
+              }, 200);
+            } else {
+              setTimeout(() => {
+                clickCount[tileIndex].flipped = false;
+                clickCount[clickedTiles[0].position].flipped = false;
+                this.props.setGameState({
+                  tiles: clickCount,
+                  clickedTiles: []
+                });
+              }, 1300);
+            }
           }
-        }
-      });
+        });
     }
   }
 
@@ -79,15 +85,14 @@ class Game extends Component {
   }
 
   initGame() {
-    console.log('start pressed');
+    console.log("start pressed");
     this.props.setGameState({ gameStage: "ready" });
-    console.log('game state ready?', this.props.gameState.gameStage);
+    console.log("game state ready?", this.props.gameState.gameStage);
     setTimeout(() => this.props.setGameState({ gameStage: "shuffling" }), 800);
     setTimeout(() => this.props.setGameState({ gameStage: "find" }), 4500);
   }
 
   // Need to move this up to the top level and make it a component, too
-
 
   render() {
     return (
@@ -113,7 +118,6 @@ class Game extends Component {
     //   );
   }
 }
-
 
 Game.defaultProps = {
   hints: {

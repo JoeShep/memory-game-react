@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import shuffle from "lodash.shuffle";
 import Square from "../squareComponent";
 import "./board.css";
 
@@ -7,7 +8,8 @@ class Board extends Component {
     super(props);
     // may need to combine tiles' true/false with matched in single object
     this.state = {
-      randomized: Array(3).fill(null) //When game starts, show three random tiles as purple for shuffle effect
+      randomized: Array(3).fill(null), //When game starts, show three random tiles as purple for shuffle effect
+      media: shuffle(this.props.media)
     };
   }
 
@@ -44,7 +46,8 @@ class Board extends Component {
   render() {
     let rows = [];
     for (let i = 0; i < this.props.imgCount; i++) {
-      let tileId = this.props.media[i].id;
+      let tileId = this.state.media[i].id;
+
       // "key" is required when dynamically adding multiple instances so React can keep track
       rows.push(
         <Square
@@ -52,7 +55,7 @@ class Board extends Component {
           id={tileId + i}
           matched={this.props.tiles[i].matched}
           key={i}
-          image={this.props.media[i].imgUrl}
+          image={this.state.media[i].imgUrl}
           randomized={this.state.randomized.find(randomNum => i === randomNum)}
           onClick={() => this.props.onClick(i, tileId)}
           gameState={this.props.gameState}

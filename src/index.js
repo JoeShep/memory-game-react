@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "./config/fb-config.js";
 import media from "./media";
 import Container from "./containerComponent";
-import shuffle from "lodash.shuffle"
 import "./index.css";
 
 // firebase stuff is here for now
@@ -27,7 +26,7 @@ Promise.all(images)
       item.imgUrl = imgUrls[i]
     })
     // console.log("media", media)
-    ReactDOM.render(<Container media={shuffle(media)} />, document.getElementById("root"));
+    ReactDOM.render(<Container media={media} />, document.getElementById("root"));
   })
   .catch(function(error) {
     /*error handling*/

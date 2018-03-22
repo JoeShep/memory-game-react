@@ -9,7 +9,9 @@ class Square extends Component {
           ${this.props.flipped ? "flipped" : ""}`
         }>
         <div
+          // "randomized" class gets added to change background to purple for shuffle animation
           className={`front ${this.props.randomized ? "randomized" : ""}`}
+          // Can only click a card if the game is ready
           onClick={this.props.gameState === 'find' ? () => this.props.onClick() : null}>
         </div>
         <div className={`back ${this.props.matched ? "matched" : ""}`} onClick={() => this.props.onClick()}>
