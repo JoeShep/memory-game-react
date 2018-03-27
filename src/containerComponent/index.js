@@ -7,7 +7,6 @@ class Container extends Component {
     gameId: 1, //this allows us to create a new game by using it as an ID on a board and then incrementing it by 1 to force React to create a new Board instance
     tiles: Array(20).fill({ flipped: false, matched: false }),
     clickedTiles: [],
-    // matched: false,
     matchCount: 0,
     gameStage: "pregame"
   };
@@ -58,15 +57,5 @@ class Container extends Component {
     );
   }
 }
-
-// Container.defaultProps = {
-//   hints: {
-//     pregame: "This is a Game of Memory",
-//     ready: "Get Ready!",
-//     shuffling: "Shuffling!",
-//     find: "Find the famous pairs!",
-//     over: "You did it!"
-//   }
-// };
 
 export default Container;
