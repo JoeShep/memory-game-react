@@ -38,6 +38,7 @@ class Game extends Component {
     let clickedTiles = this.props.gameState.clickedTiles.slice();
     return new Promise( (resolve, reject) => {
       if (
+        // if flipped + the ones who are matched (which are also flipped)
         clickCount.filter(clicked => clicked.flipped).length - this.props.gameState.matchCount * 2 < 2
         &&
         !clickCount[tileIndex].flipped //Is the tile already clicked?
