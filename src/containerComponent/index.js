@@ -9,7 +9,7 @@ class Container extends Component {
   // creating an initial state to save as state makes it easier to start a new game at the end of a game
   static initialState = {
     gameId: 1, //this allows us to create a new game by using it as an ID on a board and then incrementing it by 1 to force React to create a new Board instance
-    tiles: Array(20).fill({ flipped: false, matched: false }),
+    tiles: Array(20).fill({ flipped: false, matched: false, wrong: false }),
     clickedTiles: [],
     matchCount: 0,
     gameStage: "pregame",

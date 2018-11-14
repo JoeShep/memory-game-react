@@ -32,19 +32,28 @@ class Game extends Component {
               audioUrl: "media/wrong.mp3"
             })
             .then(() => {
-              setTimeout(() => {
-                this.props.playAudio()
-              }, 600);
-
-              setTimeout(() => {
-                clickCount[tileIndex].flipped = false;
-                clickCount[clickedTiles[0].position].flipped = false;
-                this.props.setGameState({
-                  tiles: clickCount,
-                  clickedTiles: [],
-                  audioUrl: "media/wrong.mp3"
-                })
-              }, 1300);
+              clickCount[tileIndex].wrong = true;
+              clickCount[clickedTiles[0].position].wrong = true;
+              return new Promise( (resolve, reject) => {
+                setTimeout(() => {
+                  this.props.playAudio()
+                  resolve(
+                    this.props.setGameState({
+                      tiles: clickCount
+                    })
+                  )
+                }, 500)
+              })
+              .then( () => {
+                setTimeout(() => {
+                  clickCount[tileIndex].flipped = false;
+                  clickCount[clickedTiles[0].position].flipped = false;
+                  this.props.setGameState({
+                      tiles: clickCount,
+                      clickedTiles: []
+                    })
+                }, 1100);
+              })
             })
           }
         }
@@ -62,6 +71,7 @@ class Game extends Component {
         !clickCount[tileIndex].flipped //Is the tile already clicked?
       ) {
         // set the clicked tile's value in tiles array to T/F
+        clickCount[tileIndex].wrong = false;
         clickCount[tileIndex].flipped = !clickCount[tileIndex].flipped;
         // setState is async!
         this.props

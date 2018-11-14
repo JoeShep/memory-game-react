@@ -46,3 +46,7 @@
 .flipcard .randomized {
   background-color: purple;
 }
+
+.flipcard .wrong {
+  background-color: red;
+}

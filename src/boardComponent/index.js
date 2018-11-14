@@ -54,6 +54,7 @@ class Board extends Component {
           flipped={this.props.tiles[i].flipped}
           id={tileId + i}
           matched={this.props.tiles[i].matched}
+          wrong={this.props.tiles[i].wrong}
           key={this.state.media[i].imgUrl}
           image={this.state.media[i].imgUrl}
           randomized={this.state.randomized.find(randomNum => i === randomNum)}

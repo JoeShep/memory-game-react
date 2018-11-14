@@ -14,7 +14,7 @@ class Square extends Component {
           // Can only click a card if the game is ready
           onClick={this.props.gameState === 'find' ? () => this.props.onClick() : null}>
         </div>
-        <div className={`back ${this.props.matched ? "matched" : ""}`} onClick={() => this.props.onClick()}>
+        <div className={`back ${this.props.matched ? "matched" : this.props.wrong ? "wrong" : ""}`} onClick={() => this.props.onClick()}>
           <img src={this.props.image} alt=""/>
         </div>
       </div>
