@@ -9,7 +9,7 @@ class Board extends Component {
     // may need to combine tiles' true/false with matched in single object
     this.state = {
       randomized: Array(3).fill(null), //When game starts, show three random tiles as purple for shuffle effect
-      media: shuffle(this.props.media)
+      media: this.props.media //shuffle
     };
   }
 
@@ -57,7 +57,7 @@ class Board extends Component {
           key={this.state.media[i].imgUrl}
           image={this.state.media[i].imgUrl}
           randomized={this.state.randomized.find(randomNum => i === randomNum)}
-          onClick={() => this.props.onClick(i, tileId)}
+          onClick={() => this.props.onClick(i, tileId, this.state.media[i].audioUrl)}
           gameState={this.props.gameState}
         />
       );

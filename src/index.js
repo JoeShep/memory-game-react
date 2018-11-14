@@ -11,23 +11,34 @@ import firebase from "firebase";
 const storage = firebase.storage();
 const storageRef = storage.ref();
 const imagesRef = storageRef.child("images");
+const audioRef = storageRef.child("sounds");
 
 let images = media.map(item => {
   // console.log('itemURL', item.imgUrl );
   const imgRef = imagesRef.child(item.imgUrl);
   return imgRef.getDownloadURL();
 });
+
+let sounds = media.map(item => {
+  const soundRef = audioRef.child(item.audioUrl);
+  return soundRef.getDownloadURL();
+});
 // end firebase stuff
 
 Promise.all(images)
-  .then(imgUrls => {
-    // console.log("images?", imgUrls);
-    media.forEach( (item, i) => {
-      item.imgUrl = imgUrls[i]
-    })
-    // console.log("media", media)
-    ReactDOM.render(<Container media={media} />, document.getElementById("root"));
+.then(imgs => {
+  media.forEach( (item, i) => {
+    item.imgUrl = imgs[i]
   })
-  .catch(function(error) {
+  return Promise.all(sounds)
+})
+.then( sounds => {
+  media.forEach((item, i) => {
+    item.audioUrl = sounds[i]
+  })
+  console.log(media)
+  ReactDOM.render(<Container media={media} />, document.getElementById("root"));
+})
+.catch(function(error) {
     /*error handling*/
-  });
+});

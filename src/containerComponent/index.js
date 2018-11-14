@@ -1,14 +1,20 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import Game from "../gameComponent";
+// import Audio from 'react-audioplayer';
+import Audio from "react-audio-player";
 import "./container.css";
 
 class Container extends Component {
+  // creating an initial state to save as state makes it easier to start a new game at the end of a game
   static initialState = {
     gameId: 1, //this allows us to create a new game by using it as an ID on a board and then incrementing it by 1 to force React to create a new Board instance
     tiles: Array(20).fill({ flipped: false, matched: false }),
     clickedTiles: [],
     matchCount: 0,
-    gameStage: "pregame"
+    gameStage: "pregame",
+    // playlist: [],
+    audioUrl: null
   };
 
   constructor(props) {
@@ -17,12 +23,18 @@ class Container extends Component {
     this.state = Container.initialState;
   }
 
-  setGameState(statesObj) {
+  playAudio = () => {
+    let thing = ReactDOM.findDOMNode(this.audioComponent)
+    thing.play();
+  }
+
+  setGameState = statesObj => {
     return new Promise(
       function(resolve, reject) {
         console.log("setGameState", statesObj);
-        this.setState(statesObj);
-        resolve(this.state);
+        this.setState(statesObj, () => {
+          resolve(this.state);
+        });
       }.bind(this)
     );
   }
@@ -51,7 +63,14 @@ class Container extends Component {
           media={this.props.media}
           gameState={this.state}
           // need to use fat arrow here instead of ref to method to preserve 'this' context
-          setGameState={stateObj => this.setGameState(stateObj)}
+          setGameState={this.setGameState}
+          playAudio={this.playAudio}
+        />
+        <Audio
+          src={this.state.audioUrl}
+          preload={"auto"}
+          // store a reference of the audio component
+          ref={audioComponent => { this.audioComponent = audioComponent; }}
         />
       </div>
     );

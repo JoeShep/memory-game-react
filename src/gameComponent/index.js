@@ -4,7 +4,7 @@ import Board from "../boardComponent";
 
 class Game extends Component {
 
-  handleClick(tileIndex, tileId) {
+  handleClick(tileIndex, tileId, audioUrl) {
     // Can't use slice here because state.tiles is an array of objects. slice doesn't "deep copy" objects in arrays, so the new array still references the objects in the state array. Using map and Object.assign takes care of that
     let clickCount = this.props.gameState.tiles.map(tile =>
       Object.assign({}, tile)
@@ -16,18 +16,36 @@ class Game extends Component {
         let clickedTiles = this.props.gameState.clickedTiles.slice();
         if (this.props.gameState.clickedTiles.length === 2) {
           if (this.checkMatch()) {
+            //set audioUrl state to current matched set's sound file url
+            this.props.setGameState({
+              audioUrl: audioUrl
+            })
+            .then( () => {
+              this.props.playAudio()
+            });
+
             clickCount[tileIndex].matched = true;
             clickCount[clickedTiles[0].position].matched = true;
             setTimeout( () => { this.updateMatchState(clickCount, matchCount) }, 200);
           } else {
-            setTimeout(() => {
-              clickCount[tileIndex].flipped = false;
-              clickCount[clickedTiles[0].position].flipped = false;
-              this.props.setGameState({
-                tiles: clickCount,
-                clickedTiles: []
-              });
-            }, 1300);
+            this.props.setGameState({
+              audioUrl: "media/wrong.mp3"
+            })
+            .then(() => {
+              setTimeout(() => {
+                this.props.playAudio()
+              }, 600);
+
+              setTimeout(() => {
+                clickCount[tileIndex].flipped = false;
+                clickCount[clickedTiles[0].position].flipped = false;
+                this.props.setGameState({
+                  tiles: clickCount,
+                  clickedTiles: [],
+                  audioUrl: "media/wrong.mp3"
+                })
+              }, 1300);
+            })
           }
         }
       }
@@ -61,8 +79,7 @@ class Game extends Component {
   }
 
   updateMatchState(clickCount, matchCount) {
-    this.props
-    .setGameState({
+    this.props.setGameState({
       tiles: clickCount,
       clickedTiles: [],
       matchCount: matchCount + 1,
@@ -84,10 +101,20 @@ class Game extends Component {
 
   initGame() {
     console.log("start pressed");
-    this.props.setGameState({ gameStage: "ready" });
-    console.log("game state ready?", this.props.gameState.gameStage);
-    setTimeout(() => this.props.setGameState({ gameStage: "shuffling" }), 800);
-    setTimeout(() => this.props.setGameState({ gameStage: "find" }), 4500);
+    this.props.setGameState({
+      gameStage: "ready",
+      audioUrl: "media/shuffle-tones.mp3"
+    })
+    .then( () => {
+      console.log("game state ready?", this.props.gameState.gameStage);
+      setTimeout(() => {
+        this.props.setGameState({
+          gameStage: "shuffling"
+        })
+        .then(() => this.props.playAudio())
+      }, 800);
+      setTimeout(() => this.props.setGameState({ gameStage: "find" }), 2800);
+    })
   }
 
   render() {
@@ -100,7 +127,7 @@ class Game extends Component {
           tiles={this.props.gameState.tiles}
           imgCount={20}
           media={this.props.media}
-          onClick={(i, tileId) => this.handleClick(i, tileId)}
+          onClick={(i, tileId, audioUrl) => this.handleClick(i, tileId, audioUrl)}
           gameState={this.props.gameState.gameStage}
         />
       </div>

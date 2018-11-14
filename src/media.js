@@ -3,7 +3,7 @@ const media = [
     name: "Robin",
     id: "bat",
     imgUrl: "robin.jpg",
-    audio: "batman.wav"
+    audioUrl: "batman.wav"
   },
   {
     name: "Batman",
