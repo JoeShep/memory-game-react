@@ -13,7 +13,6 @@ class Container extends Component {
     clickedTiles: [],
     matchCount: 0,
     gameStage: "pregame",
-    // playlist: [],
     audioUrl: null
   };
 
@@ -49,14 +48,10 @@ class Container extends Component {
   render() {
     return (
       <div className="gameContainer">
-        <div
-          className={`gameContainer__end ${
-            this.state.gameStage === "over" ? "isVisible" : "isHidden"
-          }`}
-        >
+        <div className={`gameContainer__end ${this.state.gameStage === "over" ? "isVisible" : "isHidden"}`}>
           <div className="gameContainer__end--content">
             <h1>You win!</h1>
-            <button onClick={() => this.resetGame()}>Play Again</button>
+            <button class="reset-btn" onClick={() => this.resetGame()}>Play Again</button>
           </div>
         </div>
         <Game

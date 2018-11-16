@@ -1,3 +1,31 @@
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gameContainer h1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: darkslategray;
+  position: relative;
+  top: 340px;
+  z-index: 100;
+  transition: 1s ease-in-out;
+}
+
+.start-btn {
+  position: absolute;
+  left: calc(50% - 50px);
+  top: 52%;
+  z-index: 1;
+  width: 100px;
+  padding: 10px 0;
+  border-radius: 8px;
+  background-color: chocolate;
+  font-size: large;
+  color: gainsboro;
+}
+
 .gameContainer__end {
   position: absolute;
   visibility:hidden;
@@ -19,7 +47,7 @@
   font-size: 4em
 }
 
-.gameContainer__end--content button {
+.gameContainer__end--content .reset-btn {
   height: 30px;
   width: 100px;
   background: red;
@@ -27,12 +55,17 @@
 }
 
 .isHidden {
-  opacity:0;
-  transition:visibility 0s linear 0.5s,
-  opacity 0.5s linear;
+  opacity: 0;
+  z-index: 0;
+  transition: visibility 0s linear 0.5s, opacity 0.5s linear, z-index  0.6s;
 }
 
 .isVisible {
   visibility: visible;
   opacity:1;
+}
+
+/* amove the h1*/
+.move {
+  transform: translateY(-340px);
 }

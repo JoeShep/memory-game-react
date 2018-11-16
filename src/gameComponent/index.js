@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Board from "../boardComponent";
-// import EndGame from "../endGameComponent";
+import './game.css'
 
 class Game extends Component {
 
@@ -26,7 +26,7 @@ class Game extends Component {
 
             clickCount[tileIndex].matched = true;
             clickCount[clickedTiles[0].position].matched = true;
-            setTimeout( () => { this.updateMatchState(clickCount, matchCount) }, 200);
+            setTimeout( () => { this.updateMatchState(clickCount, matchCount) }, 400);
           } else {
             this.props.setGameState({
               audioUrl: "media/wrong.mp3"
@@ -96,9 +96,6 @@ class Game extends Component {
       gameStage:
         matchCount === 9 ? "over" : this.props.gameState.gameStage
     })
-    .then(gameState => {
-      console.log("state after match", gameState);
-    });
   }
 
   checkMatch() {
@@ -129,18 +126,23 @@ class Game extends Component {
 
   render() {
     return (
-      <div>
-        <h1>{this.props.hints[this.props.gameState.gameStage]}</h1>
-        <button onClick={() => this.initGame()}>START</button>
-        <Board
-          key={this.props.gameState.gameId}
-          tiles={this.props.gameState.tiles}
-          imgCount={20}
-          media={this.props.media}
-          onClick={(i, tileId, audioUrl) => this.handleClick(i, tileId, audioUrl)}
-          gameState={this.props.gameState.gameStage}
-        />
-      </div>
+      <React.Fragment>
+        <h1 className={`${this.props.gameState.gameStage === "find" ? "move" : ""}`}>{this.props.hints[this.props.gameState.gameStage]}</h1>
+        <button
+          className={`start-btn ${this.props.gameState.gameStage !== "pregame" ? "isHidden" : ""}`}
+          onClick={() => this.initGame()}>START
+        </button>
+        <div className="board-container">
+          <Board
+            key={this.props.gameState.gameId}
+            tiles={this.props.gameState.tiles}
+            imgCount={20}
+            media={this.props.media}
+            onClick={(i, tileId, audioUrl) => this.handleClick(i, tileId, audioUrl)}
+            gameState={this.props.gameState.gameStage}
+          />
+        </div>
+      </React.Fragment>
     );
   }
 }

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import shuffle from "lodash.shuffle";
 import Square from "../squareComponent";
 import "./board.css";
 
@@ -9,7 +8,6 @@ class Board extends Component {
     // may need to combine tiles' true/false with matched in single object
     this.state = {
       randomized: Array(3).fill(null), //When game starts, show three random tiles as purple for shuffle effect
-      media: this.props.media //shuffle
     };
   }
 
@@ -28,7 +26,7 @@ class Board extends Component {
           // maybe replace value with a default?
           this.setState({ randomized: Array(3).fill(null) });
         }
-      }, 200);
+      }, 300);
     }
   }
 
@@ -46,7 +44,7 @@ class Board extends Component {
   render() {
     let rows = [];
     for (let i = 0; i < this.props.imgCount; i++) {
-      let tileId = this.state.media[i].id;
+      let tileId = this.props.media[i].id;
 
       // "key" is required when dynamically adding multiple instances so React can keep track
       rows.push(
@@ -55,10 +53,10 @@ class Board extends Component {
           id={tileId + i}
           matched={this.props.tiles[i].matched}
           wrong={this.props.tiles[i].wrong}
-          key={this.state.media[i].imgUrl}
-          image={this.state.media[i].imgUrl}
+          key={this.props.media[i].imgUrl}
+          image={this.props.media[i].imgUrl}
           randomized={this.state.randomized.find(randomNum => i === randomNum)}
-          onClick={() => this.props.onClick(i, tileId, this.state.media[i].audioUrl)}
+          onClick={() => this.props.onClick(i, tileId, this.props.media[i].audioUrl)}
           gameState={this.props.gameState}
         />
       );

@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import shuffle from "lodash.shuffle";
 import "./config/fb-config.js";
 import media from "./media";
 import Container from "./containerComponent";
@@ -36,7 +37,6 @@ Promise.all(images)
   media.forEach((item, i) => {
     item.audioUrl = sounds[i]
   })
-  console.log(media)
   ReactDOM.render(<Container media={media} />, document.getElementById("root"));
 })
 .catch(function(error) {

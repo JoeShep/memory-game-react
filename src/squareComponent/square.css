@@ -4,6 +4,7 @@
   height: 160px;
   perspective: 500px;
   border: 1px solid white;
+  border-radius: 4px;
 }
 
 .flipcard.flipped .front {
@@ -27,8 +28,9 @@
   transition: all 0.5s ease-in;
   color: white;
   background-color: goldenrod;
-  /* padding: 10px; */
+  background-image: url("../imgs/noisy-texture2.png");
   backface-visibility: hidden;
+  border-radius: 4px;
 }
 
 .flipcard img {
@@ -41,12 +43,15 @@
 
 .flipcard .matched {
   background-color: green;
+  background-image: none;
 }
 
 .flipcard .randomized {
   background-color: purple;
+  background-image: url("../imgs/noisy-texture1.png")
 }
 
 .flipcard .wrong {
   background-color: red;
+  background-image: none;
 }
